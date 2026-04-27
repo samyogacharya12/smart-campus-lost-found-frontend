@@ -1,89 +1,59 @@
-# Smart Campus Lost & Found – Frontend
+# SmartCampusLostFoundFrontend
 
-## Overview
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.8.
 
-The **Smart Campus Lost & Found Frontend** is the user interface for a campus-based lost and found management system. It will allow users to report lost items, submit found items, search items, manage claims, and receive notifications.
+## Development server
 
-## Planned Features
+To start a local development server, run:
 
-* User registration and login
-* Report lost items
-* Submit found items
-* Search and filter items
-* View item details
-* Upload item images
-* Submit claims for found items
-* View claim status
-* Receive notifications for matches and claim updates
-* Admin dashboard for managing users, items, claims, and actions
-
-## Tech Stack
-
-The frontend technology is not finalized yet.
-
-Possible options:
-
-* React
-* Angular
-* Vue.js
-
-Final technology will be selected based on project requirements, team familiarity, and development speed.
-
-## Project Structure
-
-```text
-src/
- ├── components/      # Reusable UI components
- ├── pages/           # Application pages/screens
- ├── services/        # API integration logic
- ├── assets/          # Images, icons, and static files
- ├── routes/          # Frontend routing
- └── utils/           # Helper functions
+```bash
+ng serve
 ```
 
-## Backend Integration
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-This frontend will communicate with the backend REST APIs.
+## Code scaffolding
 
-Example backend repository:
+Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
-```text
-smart-campus-lost-found-backend
+```bash
+ng generate component component-name
 ```
 
-Sample API modules:
+For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
 
-* Authentication APIs
-* Item APIs
-* Claim APIs
-* Notification APIs
-* Admin APIs
+```bash
+ng generate --help
+```
 
-## Main Pages
+## Building
 
-* Login Page
-* Register Page
-* Dashboard
-* Lost Items Page
-* Found Items Page
-* Item Details Page
-* Report Lost Item Page
-* Submit Found Item Page
-* Claims Page
-* Notifications Page
-* Admin Dashboard
+To build the project run:
 
-## Future Improvements
+```bash
+ng build
+```
 
-* Responsive mobile-friendly UI
-* Image preview before upload
-* Advanced search and filters
-* Real-time notifications
-* Role-based UI access
-* Dark mode
+This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
-## Author
+## Running unit tests
 
-## License
+To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
 
-This project is open-source and available under the MIT License.
+```bash
+ng test
+```
+
+## Running end-to-end tests
+
+For end-to-end (e2e) testing, run:
+
+```bash
+ng e2e
+```
+
+Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Additional Resources
+
+For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
