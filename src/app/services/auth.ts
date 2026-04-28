@@ -18,24 +18,18 @@ export class AuthService {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
-    this.loggedIn.next(this.hasToken());
+
+    if (this.isBrowser) {
+      this.loggedIn.next(this.hasToken());
+    }
   }
 
   login(credentials: { userName: string; password: string }): Observable<any> {
-    return this.http.post<any>(this.apiUrl, credentials).pipe(
+    return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
       tap((response: any) => {
-        console.log('Login response:', response);
-
         if (this.isBrowser) {
           localStorage.setItem('username', credentials.userName);
-
-          // adjust this based on your backend response
-          const token = response?.detail?.token || response?.token;
-
-          if (token) {
-            localStorage.setItem('token', token);
-          }
-
+          localStorage.setItem('token', response.detail.token);
           localStorage.setItem('reload', 'true');
         }
 
@@ -44,11 +38,33 @@ export class AuthService {
     );
   }
 
+  isLoggedIn(): boolean {
+    return this.loggedIn.value;
+  }
+
   private hasToken(): boolean {
     if (!this.isBrowser) {
       return false;
     }
 
     return !!localStorage.getItem('token');
+  }
+
+  getUsername(): string {
+    if (!this.isBrowser) {
+      return '';
+    }
+
+    return localStorage.getItem('username') || '';
+  }
+
+  logout(): void {
+    if (this.isBrowser) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('username');
+      localStorage.removeItem('reload');
+    }
+
+    this.loggedIn.next(false);
   }
 }
