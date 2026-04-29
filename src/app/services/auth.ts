@@ -8,10 +8,10 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8080/api/authenticate';
+  private apiUrl = 'http://localhost:8080/api';
   private isBrowser: boolean;
 
-  private loggedIn = new BehaviorSubject<boolean>(false);
+  private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
 
   constructor(
     private http: HttpClient,
@@ -25,11 +25,12 @@ export class AuthService {
   }
 
   login(credentials: { userName: string; password: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
+    return this.http.post(`${this.apiUrl}/authenticate`, credentials).pipe(
       tap((response: any) => {
         if (this.isBrowser) {
           localStorage.setItem('username', credentials.userName);
           localStorage.setItem('token', response.detail.token);
+          localStorage.setItem('role', response.detail.roles); 
           localStorage.setItem('reload', 'true');
         }
 
