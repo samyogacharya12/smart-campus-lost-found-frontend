@@ -1,0 +1,105 @@
+<div class="page-wrapper">
+  <div class="login-card">
+ 
+    <!-- Header -->
+    <div class="logo">Campus <span>Lost&amp;Found</span></div>
+    <p class="logo-sub">UNIVERSITY ITEM RECOVERY SYSTEM</p>
+ 
+    <!--  Role Toggle  -->
+    <!-- Clicking each button calls setRole() in the component -->
+    <div class="role-toggle-wrap">
+      <p class="toggle-label">Signing in as</p>
+      <div class="role-toggle">
+ 
+        <button
+          [class.active]="selectedRole === 'student'"
+          (click)="setRole('student')"
+          type="button">
+           Student
+        </button>
+ 
+        <button
+          [class.active]="selectedRole === 'admin'"
+          (click)="setRole('admin')"
+          type="button">
+           Admin
+        </button>
+ 
+      </div>
+    </div>
+ 
+    <!-- Role Hint  -->
+    <!-- Changes text depending on which role is selected -->
+    <div class="role-hint" [class.admin]="selectedRole === 'admin'">
+      <ng-container *ngIf="selectedRole === 'student'">
+         Sign in with your university email to report lost items and submit claims.
+      </ng-container>
+      <ng-container *ngIf="selectedRole === 'admin'">
+         Admin access only. You can verify items and approve or reject claims.
+      </ng-container>
+    </div>
+ 
+    <!--Form -->
+    <!-- novalidate stops the browser's built-in validation so we control it -->
+    <form (ngSubmit)="onSignIn()" novalidate>
+ 
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <div class="input-wrap">
+          <span class="input-icon">✉️</span>
+          <input
+            id="email"
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="you@university.edu"
+            autocomplete="email"
+          />
+        </div>
+        <!-- Validation hint (only shows after Sign In is clicked) -->
+        <p class="field-error" *ngIf="submitted && !email">
+          Please enter your email address.
+        </p>
+      </div>
+ 
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrap">
+          <span class="input-icon">🔒</span>
+          <input
+            id="password"
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+          />
+        </div>
+        <!-- Validation hint -->
+        <p class="field-error" *ngIf="submitted && !password">
+          Please enter your password.
+        </p>
+      </div>
+ 
+      <!-- Forgot password -->
+      <div class="forgot-row">
+        <span class="forgot-link" (click)="onForgotPassword()">Forgot password?</span>
+      </div>
+ 
+      <!-- Sign In Button -->
+      <button type="submit" class="btn-signin">
+        Sign In as {{ selectedRole === 'admin' ? 'Admin' : 'Student' }}
+      </button>
+ 
+    </form>
+ 
+    <!-- Divider  -->
+    <div class="divider">or</div>
+ 
+    <!--  Register Link -->
+    <p class="register-row">
+      Don't have an account?
+      <a (click)="onRegister()">Register here</a>
+    </p>
