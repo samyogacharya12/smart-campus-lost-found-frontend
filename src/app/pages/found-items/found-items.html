@@ -4,23 +4,13 @@
 
   <div class="items-container">
 
-    <div class="item-card">
-      <h3>Water Bottle</h3>
-      <p><strong>Found at:</strong> Student Center</p>
-      <p><strong>Date:</strong> May 1, 2026</p>
-    </div>
-
-    <div class="item-card">
-      <h3>Backpack</h3>
-      <p><strong>Found at:</strong> Engineering Building</p>
-      <p><strong>Date:</strong> May 2, 2026</p>
-    </div>
-
-    <div class="item-card">
-      <h3>Keys</h3>
-      <p><strong>Found at:</strong> Gym</p>
-      <p><strong>Date:</strong> May 3, 2026</p>
-    </div>
+    @for (item of items; track item.name) {
+      <div class="item-card">
+        <h3>{{ item.name }}</h3>
+        <p><strong>Found at:</strong> {{ item.location }}</p>
+        <p><strong>Date:</strong> {{ item.date }}</p>
+      </div>
+    }
 
   </div>
 
