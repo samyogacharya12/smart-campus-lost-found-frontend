@@ -1,5 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+
+import { Navbar } from './components/navbar/navbar';
+
 import { AuthService } from './services/auth';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -8,6 +11,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-root',
+  imports: [RouterOutlet, Navbar],
   standalone: true, // ✅ REQUIRED
   imports: [ 
     CommonModule,
@@ -23,6 +27,7 @@ export class App {
   username: string = '';
 
   protected readonly title = signal('smart-campus-lost-found-frontend');
+}
 
   constructor(private authService: AuthService, private router: Router) {}
 

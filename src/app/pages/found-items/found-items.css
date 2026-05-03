@@ -1,0 +1,33 @@
+.found-items-page {
+  padding: 40px 60px;
+}
+
+.found-items-page h2 {
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: #0f172a;
+}
+
+.items-container {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.item-card {
+  width: 260px;
+  padding: 20px;
+  border-radius: 12px;
+  background: #f8fafc;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.item-card h3 {
+  margin-bottom: 10px;
+  color: #16a34a;
+}
+
+.item-card p {
+  margin: 5px 0;
+  color: #475569;
+}

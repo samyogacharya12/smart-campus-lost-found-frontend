@@ -1,0 +1,17 @@
+<div class="found-items-page">
+
+  <h2>Found Items</h2>
+
+  <div class="items-container">
+
+    @for (item of items; track item.name) {
+      <div class="item-card">
+        <h3>{{ item.name }}</h3>
+        <p><strong>Found at:</strong> {{ item.location }}</p>
+        <p><strong>Date:</strong> {{ item.date }}</p>
+      </div>
+    }
+
+  </div>
+
+</div>
