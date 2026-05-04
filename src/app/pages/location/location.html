@@ -1,0 +1,29 @@
+<div class="location-container">
+  <h2>Create Location</h2>
+
+  <form (ngSubmit)="saveLocation()">
+    <div>
+      <label>Location Name</label>
+      <input
+        type="text"
+        name="locationName"
+        [(ngModel)]="locationName"
+        required
+      />
+    </div>
+
+    <div>
+      <label>Description</label>
+      <textarea
+        name="description"
+        [(ngModel)]="description"
+        required
+      ></textarea>
+    </div>
+
+    <button type="submit">Save Location</button>
+  </form>
+
+  <p style="color: green;" *ngIf="successMessage">{{ successMessage }}</p>
+  <p style="color: red;" *ngIf="errorMessage">{{ errorMessage }}</p>
+</div>

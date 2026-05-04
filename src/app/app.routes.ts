@@ -9,6 +9,8 @@ import { Contact } from './pages/contact/contact';
 import { Login } from './pages/login/login';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { Register } from './pages/register/register';
+import { Location } from './pages/location/location';
+
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -18,7 +20,8 @@ export const routes: Routes = [
   { path: 'lost-items', component: LostItems },
   { path: 'found-items', component: FoundItems },
   { path: 'report-item', component: ReportItem },
-  { path: 'contact', component: Contact }
+  { path: 'contact', component: Contact },
+  { path: 'location', component: Location }
 ];
 
 @NgModule({
