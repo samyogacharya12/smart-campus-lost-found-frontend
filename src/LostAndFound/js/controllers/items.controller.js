@@ -1,0 +1,1 @@
+angular.module('campusLostFound').controller('ItemsCtrl', ['$scope', function($scope) {}]);

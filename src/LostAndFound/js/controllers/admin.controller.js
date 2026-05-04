@@ -1,0 +1,1 @@
+angular.module('campusLostFound').controller('AdminCtrl', ['$scope', function($scope) {}]);

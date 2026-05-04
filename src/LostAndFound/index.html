@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="campusLostFound">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campus Lost &amp; Found</title>
+
+  <!-- Google Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- AngularJS (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+</head>
+
+<body ng-controller="MainCtrl">
+
+  <!-- ==================================================
+    AUTH WRAPPER
+    Single AuthCtrl instance wraps both auth pages.
+    This avoids the ng-if + ng-controller conflict.
+  ================================================== -->
+  <div ng-controller="AuthCtrl"
+    ng-if="currentPage === 'login' || currentPage === 'register'">
+
+    <!-- LOGIN PAGE -->
+    <div class="auth-page" ng-if="currentPage === 'login'">
+      <div class="auth-box">
+
+        <h2>Campus Lost &amp; Found</h2>
+        <p class="auth-subtitle">Sign in to your account</p>
+
+        <div class="alert alert-error" ng-if="authError">
+          {{ authError }}
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input
+            type="email"
+            ng-model="loginForm.email"
+            placeholder="you@university.edu"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input
+            type="password"
+            ng-model="loginForm.password"
+            placeholder="••••••••"
+          />
+        </div>
+
+        <button class="btn btn-primary btn-full" ng-click="fakeLogin()">
+          Login
+        </button>
+
+        <div class="login-divider">or quick login as</div>
+
+        <div class="quick-login-btns">
+          <div class="quick-btn" ng-click="quickLogin('student')">
+            <span class="qb-icon">STUDENT</span>
+          
+            <div class="qb-sub">Demo account</div>
+          </div>
+          <div class="quick-btn" ng-click="quickLogin('admin')">
+            <span class="qb-icon">ADMIN</span>
+          
+            <div class="qb-sub">Demo account</div>
+          </div>
+        </div>
+
+        <div class="auth-switch">
+          Don't have an account?
+          <a ng-click="$parent.goTo('register')">Register</a>
+        </div>
+
+      </div>
+    </div><!-- end login -->
+
+    <!-- REGISTER PAGE -->
+    <div class="auth-page" ng-if="currentPage === 'register'">
+      <div class="auth-box wide">
+
+        <h2>Create Account</h2>
+        <p class="auth-subtitle">Register to report or claim items</p>
+
+        <div class="alert alert-error" ng-if="authError">
+          {{ authError }}
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name *</label>
+            <input type="text" ng-model="regForm.firstName" placeholder="Jane" />
+          </div>
+          <div class="form-group">
+            <label>Last Name *</label>
+            <input type="text" ng-model="regForm.lastName" placeholder="Doe" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email *</label>
+          <input
+            type="email"
+            ng-model="regForm.email"
+            placeholder="jane@university.edu"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Student ID</label>
+          <input
+            type="text"
+            ng-model="regForm.studentId"
+            placeholder="e.g. 20240001"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Password *</label>
+          <input
+            type="password"
+            ng-model="regForm.password"
+            placeholder="Min. 8 characters"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Confirm Password *</label>
+          <input
+            type="password"
+            ng-model="regForm.confirmPassword"
+            placeholder="Repeat password"
+          />
+        </div>
+
+        <button class="btn btn-primary btn-full" ng-click="register()">
+          Create Account
+        </button>
+
+        <div class="auth-switch">
+          Already have an account?
+          <a ng-click="$parent.goTo('login')">Login</a>
+        </div>
+
+      </div>
+    </div><!-- end register -->
+
+  </div><!-- end AuthCtrl wrapper -->
+
+
+  <!-- App Shell - Visible for every page except login and register -->
+  <div class="app-wrapper"
+    ng-if="currentPage !== 'login' && currentPage !== 'register'">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-title">CampusLost&Found</div>
+        <div class="brand-sub">Lost &amp; Found System</div>
+      </div>
+
+      <div class="sidebar-nav">
+
+        <!-- Student navigation -->
+        <div ng-if="user && user.role === 'student'">
+          <div class="nav-label">Main</div>
+          <button class="nav-item"
+            ng-class="{active: currentPage === 'dashboard'}"
+            ng-click="goTo('dashboard')">
+            <span class="nav-icon"></span> Dashboard
+          </button>
+          <button class="nav-item"
+            ng-class="{active: currentPage === 'lost-items'}"
+            ng-click="goTo('lost-items')">
+            <span class="nav-icon"></span> Lost Items
+          </button>
+          <button class="nav-item"
+            ng-class="{active: currentPage === 'found-items'}"
+            ng-click="goTo('found-items')">
+            <span class="nav-icon"></span> Found Items
+          </button>
+          <button class="nav-item"
+            ng-class="{active: currentPage === 'claims'}"
+            ng-click="goTo('claims')">
+            <span class="nav-icon"></span> My Claims
+            <span class="nav-badge" ng-if="pendingCount > 0">{{ pendingCount }}</span>
+          </button>
+          <button class="nav-item"
+            ng-class="{active: currentPage === 'notifications'}"
+            ng-click="goTo('notifications')">
+            <span class="nav-icon">🔔</span> Notifications
+            <span class="nav-badge" ng-if="unreadCount > 0">{{ unreadCount }}</span>
+          </button>
+
+          <div class="nav-label" style="margin-top: 10px;">Report</div>
+          <button class="nav-item"
+            ng-class="{active: currentPage === 'report-lost'}"
+            ng-click="goTo('report-lost')">
+            <span class="nav-icon">❗</span> Report Lost
+          </button>
+          <button class="nav-item"
+            ng-class="{active: currentPage === 'submit-found'}"
+            ng-click="goTo('submit-found')">
+            <span class="nav-icon">✅</span> Submit Found
+          </button>
+        </div>
+
+        <!-- Admin navigation -->
+        <div ng-if="user && user.role === 'admin'">
+          <div class="nav-label">Admin Panel</div>
+          <button class="nav-item"
+            ng-class="{active: currentPage === 'admin-dashboard'}"
+            ng-click="goTo('admin-dashboard')">
+            <span class="nav-icon">🏠</span> Dashboard
+          </button>
+          <button class="nav-item"
+            ng-class="{active: currentPage === 'lost-items'}"
+            ng-click="goTo('lost-items')">
+            <span class="nav-icon"></span> Lost Items
+          </button>
+          <button class="nav-item"
+            ng-class="{active: currentPage === 'found-items'}"
+            ng-click="goTo('found-items')">
+            <span class="nav-icon"></span> Found Items
+          </button>
+          <button class="nav-item"
+            ng-class="{active: currentPage === 'claims'}"
+            ng-click="goTo('claims')">
+            <span class="nav-icon"></span> Claims
+            <span class="nav-badge" ng-if="pendingCount > 0">{{ pendingCount }}</span>
+          </button>
+          <button class="nav-item"
+            ng-class="{active: currentPage === 'notifications'}"
+            ng-click="goTo('notifications')">
+            <span class="nav-icon">🔔</span> Notifications
+          </button>
+        </div>
+
+      </div><!-- end sidebar-nav -->
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user" ng-if="user">
+          <div class="user-avatar">{{ user.initials }}</div>
+          <div>
+            <div class="user-name">{{ user.name }}</div>
+            <div class="user-role">{{ user.role }}</div>
+          </div>
+        </div>
+        <button class="nav-item" ng-click="logout()">
+          <span class="nav-icon"></span> Logout
+        </button>
+      </div>
+    </div><!-- end sidebar -->
+
+
+    <!--
+      MAIN CONTENT
+    -->
+    <div class="main-content">
+
+      <!-- Topbar -->
+      <div class="topbar">
+        <div class="topbar-title">{{ pageTitle }}</div>
+        <div class="topbar-search"
+          ng-if="currentPage === 'lost-items' || currentPage === 'found-items'">
+          <span></span>
+          <input type="text" ng-model="searchQuery" placeholder="Search items..." />
+        </div>
+      </div>
+
+
+      <!-- 
+        PAGE: Student Dashboard
+       -->
+      <div class="page" ng-if="currentPage === 'dashboard'">
+        <div class="page-header">
+          <div>
+            <h2>Welcome back, {{ user.name.split(' ')[0] }} 👋</h2>
+            <p>Here's a summary of your activity</p>
+          </div>
+          <div class="flex gap-8">
+            <button class="btn btn-secondary btn-sm" ng-click="goTo('report-lost')">❗ Report Lost</button>
+            <button class="btn btn-primary btn-sm"   ng-click="goTo('submit-found')">✅ Submit Found</button>
+          </div>
+        </div>
+
+        <!-- Stat cards -->
+        <div class="stat-row">
+          <div class="stat-card">
+            <div class="stat-icon blue"></div>
+            <div>
+              <div class="stat-num">{{ dashStats.myLost }}</div>
+              <div class="stat-label">My Lost Reports</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green"></div>
+            <div>
+              <div class="stat-num">{{ dashStats.myFound }}</div>
+              <div class="stat-label">Items I Found</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon orange"></div>
+            <div>
+              <div class="stat-num">{{ dashStats.myClaims }}</div>
+              <div class="stat-label">Active Claims</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple"></div>
+            <div>
+              <div class="stat-num">{{ dashStats.resolved }}</div>
+              <div class="stat-label">Resolved</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Two column grid -->
+        <div class="two-col">
+
+          <!-- Recent items table -->
+          <div class="card">
+            <div class="card-header">
+              <h3>My Recent Items</h3>
+              <button class="btn btn-secondary btn-sm" ng-click="goTo('lost-items')">View All</button>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in myRecentItems">
+                  <td class="fw6">{{ item.name }}</td>
+                  <td><span class="badge" ng-class="'badge-' + item.type">{{ item.type }}</span></td>
+                  <td><span class="badge" ng-class="'badge-' + item.status">{{ item.status }}</span></td>
+                  <td class="text-muted text-sm">{{ item.date }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Recent notifications -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Recent Notifications</h3>
+              <button class="btn btn-secondary btn-sm" ng-click="goTo('notifications')">View All</button>
+            </div>
+            <div ng-repeat="n in notifications | limitTo: 4">
+              <div class="notif-item"
+                ng-class="{unread: n.unread}"
+                ng-click="n.unread = false">
+                <div class="notif-dot-icon" ng-style="{'background': n.bg}">{{ n.icon }}</div>
+                <div class="notif-text">
+                  <div class="notif-title">{{ n.title }}</div>
+                  <div class="notif-time">{{ n.time }}</div>
+                </div>
+                <div class="unread-dot" ng-if="n.unread"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- end dashboard -->
+
+
+      <!-- 
+        PAGE: LOST ITEMS
+      -->
+      <div class="page" ng-if="currentPage === 'lost-items'">
+        <div class="page-header">
+          <div>
+            <h2>Lost Items</h2>
+            <p>All items reported as lost on campus</p>
+          </div>
+          <button class="btn btn-primary btn-sm" ng-click="goTo('report-lost')">
+            ❗ Report Lost Item
+          </button>
+        </div>
+
+        <!-- Category filters -->
+        <div class="filter-bar">
+          <button class="filter-chip" ng-class="{active: catFilter === ''}"            ng-click="catFilter = ''">All</button>
+          <button class="filter-chip" ng-class="{active: catFilter === 'Electronics'}" ng-click="catFilter = 'Electronics'">💻 Electronics</button>
+          <button class="filter-chip" ng-class="{active: catFilter === 'Clothing'}"    ng-click="catFilter = 'Clothing'">👕 Clothing</button>
+          <button class="filter-chip" ng-class="{active: catFilter === 'Accessories'}" ng-click="catFilter = 'Accessories'">🎒 Accessories</button>
+          <button class="filter-chip" ng-class="{active: catFilter === 'ID / Cards'}"  ng-click="catFilter = 'ID / Cards'">💳 ID / Cards</button>
+          <button class="filter-chip" ng-class="{active: catFilter === 'Other'}"       ng-click="catFilter = 'Other'">📦 Other</button>
+        </div>
+
+        <!-- Item cards -->
+        <div class="items-grid">
+          <div class="item-card"
+            ng-repeat="item in lostItems | filter: {category: catFilter} | filter: searchQuery"
+            ng-click="viewDetail(item)">
+            <div class="item-thumb">
+              {{ item.emoji }}
+              <div class="thumb-badge">
+                <span class="badge badge-lost">Lost</span>
+              </div>
+            </div>
+            <div class="item-body">
+              <div class="item-name">{{ item.name }}</div>
+              <div class="item-info">
+                <span>📍 {{ item.location }}</span>
+                <span>📂 {{ item.category }}</span>
+                <span>📅 {{ item.date }}</span>
+              </div>
+            </div>
+            <div class="item-footer">
+              <span class="reporter">{{ item.reportedBy }}</span>
+              <button class="btn btn-primary btn-sm"
+                ng-click="openClaim(item); $event.stopPropagation()">
+                Claim
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty state -->
+        <div class="empty"
+          ng-if="(lostItems | filter: {category: catFilter} | filter: searchQuery).length === 0">
+          <div class="empty-icon">🔍</div>
+          <h3>No items found</h3>
+          <p>Try a different filter or search term</p>
+        </div>
+      </div><!-- end lost-items -->
+
+
+      <!-- 
+        PAGE: Found Items
+       -->
+      <div class="page" ng-if="currentPage === 'found-items'">
+        <div class="page-header">
+          <div>
+            <h2>Found Items</h2>
+            <p>Items turned in and waiting to be claimed</p>
+          </div>
+          <button class="btn btn-primary btn-sm" ng-click="goTo('submit-found')">
+            ✅ Submit Found Item
+          </button>
+        </div>
+
+        <!-- Category filters -->
+        <div class="filter-bar">
+          <button class="filter-chip" ng-class="{active: catFilter === ''}"            ng-click="catFilter = ''">All</button>
+          <button class="filter-chip" ng-class="{active: catFilter === 'Electronics'}" ng-click="catFilter = 'Electronics'">💻 Electronics</button>
+          <button class="filter-chip" ng-class="{active: catFilter === 'Clothing'}"    ng-click="catFilter = 'Clothing'">👕 Clothing</button>
+          <button class="filter-chip" ng-class="{active: catFilter === 'Accessories'}" ng-click="catFilter = 'Accessories'">🎒 Accessories</button>
+          <button class="filter-chip" ng-class="{active: catFilter === 'ID / Cards'}"  ng-click="catFilter = 'ID / Cards'">💳 ID / Cards</button>
+          <button class="filter-chip" ng-class="{active: catFilter === 'Other'}"       ng-click="catFilter = 'Other'">📦 Other</button>
+        </div>
+
+        <!-- Item cards -->
+        <div class="items-grid">
+          <div class="item-card"
+            ng-repeat="item in foundItems | filter: {category: catFilter} | filter: searchQuery"
+            ng-click="viewDetail(item)">
+            <div class="item-thumb found-bg">
+              {{ item.emoji }}
+              <div class="thumb-badge">
+                <span class="badge badge-found">Found</span>
+              </div>
+            </div>
+            <div class="item-body">
+              <div class="item-name">{{ item.name }}</div>
+              <div class="item-info">
+                <span>📍 {{ item.location }}</span>
+                <span>📂 {{ item.category }}</span>
+                <span>📅 {{ item.date }}</span>
+              </div>
+            </div>
+            <div class="item-footer">
+              <span class="reporter">{{ item.reportedBy }}</span>
+              <button class="btn btn-primary btn-sm"
+                ng-click="openClaim(item); $event.stopPropagation()">
+                It's Mine
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty state -->
+        <div class="empty"
+          ng-if="(foundItems | filter: {category: catFilter} | filter: searchQuery).length === 0">
+          <div class="empty-icon">📦</div>
+          <h3>No items found</h3>
+          <p>Try a different filter or search term</p>
+        </div>
+      </div><!-- end found-items -->
+
+
+      <!-- 
+        PAGE: Item Details
+       -->
+      <div class="page" ng-if="currentPage === 'item-detail' && selectedItem">
+        <div class="page-header">
+          <button class="btn btn-secondary btn-sm" ng-click="goBack()">← Back</button>
+        </div>
+
+        <div class="detail-layout">
+
+          <!-- Left column -->
+          <div>
+            <div class="detail-img" ng-class="selectedItem.type === 'found' ? 'found-bg' : ''">
+              {{ selectedItem.emoji }}
+            </div>
+            <div class="card">
+              <div class="card-header"><h3>Item Details</h3></div>
+              <div class="card-body">
+                <div class="detail-field">
+                  <label>Item Name</label>
+                  <p class="fw6">{{ selectedItem.name }}</p>
+                </div>
+                <div class="detail-field">
+                  <label>Category</label>
+                  <p>{{ selectedItem.category }}</p>
+                </div>
+                <div class="detail-field">
+                  <label>Location</label>
+                  <p>📍 {{ selectedItem.location }}</p>
+                </div>
+                <div class="detail-field">
+                  <label>Date Reported</label>
+                  <p>{{ selectedItem.date }}</p>
+                </div>
+                <div class="detail-field">
+                  <label>Description</label>
+                  <p>{{ selectedItem.description }}</p>
+                </div>
+                <div class="detail-field">
+                  <label>Status</label>
+                  <span class="badge" ng-class="'badge-' + selectedItem.type">
+                    {{ selectedItem.type }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right column -->
+          <div>
+            <div class="card" style="margin-bottom: 14px;">
+              <div class="card-header"><h3>Reported By</h3></div>
+              <div class="card-body">
+                <div class="flex-center gap-10">
+                  <div style="width:38px;height:38px;background:#dbeafe;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;">👤</div>
+                  <div>
+                    <div class="fw6">{{ selectedItem.reportedBy }}</div>
+                    <div class="text-muted text-sm">Student</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header"><h3>Actions</h3></div>
+              <div class="card-body" style="display:flex;flex-direction:column;gap:8px;">
+                <button class="btn btn-primary" ng-click="openClaim(selectedItem)">
+                   Submit a Claim
+                </button>
+                <button class="btn btn-secondary" ng-click="goBack()">
+                  ← Go Back
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- end item-detail -->
+
+
+     
+      <div class="page" ng-if="
+        currentPage === 'report-lost'    ||
+        currentPage === 'submit-found'   ||
+        currentPage === 'claims'         ||
+        currentPage === 'notifications'  ||
+        currentPage === 'admin-dashboard'">
+        <div class="empty" style="margin-top: 60px;">
+          <div class="empty-icon">🚧</div>
+          <h3>workin on it</h3>
+          <p>{{ pageTitle }} workin on it</p>
+        </div>
+      </div>
+
+
+    </div><!-- end main-content -->
+  </div><!-- end app-wrapper -->
+
+
+  <!-- 
+    CLAIM MODAL
+    Triggered by openClaim(item) from any page.
+  -->
+  <div class="modal-bg" ng-if="showClaimModal" ng-click="closeClaimModal()">
+    <div class="modal" ng-click="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Submit a Claim</h3>
+        <button class="modal-close" ng-click="closeClaimModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-info">
+          Claiming: <strong>{{ claimItem.emoji }} {{ claimItem.name }}</strong>
+        </div>
+        <div class="form-group">
+          <label>How can you prove this is yours?</label>
+          <textarea
+            ng-model="claimForm.message"
+            placeholder="Describe identifying features, serial number, what was inside, etc.">
+          </textarea>
+        </div>
+        <div class="form-group">
+          <label>Contact Number</label>
+          <input
+            type="text"
+            ng-model="claimForm.contact"
+            placeholder="e.g. 555-0100"
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" ng-click="closeClaimModal()">Cancel</button>
+        <button class="btn btn-primary"   ng-click="submitClaim()">Submit Claim</button>
+      </div>
+    </div>
+  </div><!-- end claim modal -->
+
+
+  <!-- =============================================
+    JS files — load ORDER matters:
+      1. app.js        (defines the module)
+      2. services      (depend only on the module)
+      3. controllers   (depend on services + module)
+    ============================================= -->
+
+  <!-- App module (first) -->
+  <script src="js/app.js"></script>
+
+  <!-- Services -->
+  <script src="js/services/api.service.js"></script>
+
+  <!-- Controllers -->
+  <script src="js/controllers/auth.controller.js"></script>
+  <script src="js/controllers/main.controller.js"></script>
+  <script src="js/controllers/items.controller.js"></script>
+  <script src="js/controllers/claims.controller.js"></script>
+  <script src="js/controllers/admin.controller.js"></script>
+
+</body>
+</html>
