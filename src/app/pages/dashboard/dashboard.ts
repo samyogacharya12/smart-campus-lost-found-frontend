@@ -32,7 +32,6 @@ export class Dashboard implements OnInit {
     constructor(private authService: AuthService) {}
  ngOnInit(): void {
       this.isLoggedIn = this.authService.isLoggedIn();
-      this.role = localStorage.getItem('role') || '';
      if (localStorage.getItem('reload') === "true") {
     console.log("reloading");
      localStorage.setItem('reload', "false");
@@ -41,14 +40,6 @@ export class Dashboard implements OnInit {
         console.log("stopping reload");
        localStorage.removeItem('reload' +  this.role);
    }  
-   if(this.role==='USER'){
-        this.isUser=true;
-   } else if(this.role==='ADMIN'){
-       this.isAdmin=true;
-   }
-         console.log(" role " +this.role);
-         console.log(" admin " +this.isAdmin);
-         console.log(" user " +this.isUser);
 
 }
 

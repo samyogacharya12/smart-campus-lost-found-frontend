@@ -1,33 +1,33 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, signal, OnInit } from '@angular/core';
+import { RouterOutlet, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 import { Navbar } from './components/navbar/navbar';
-
 import { AuthService } from './services/auth';
-import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar],
-  standalone: true, // ✅ REQUIRED
-  imports: [ 
+  standalone: true,
+  imports: [
     CommonModule,
     RouterOutlet,
+    Navbar,
     MatIconModule,
     MatMenuModule,
-    MatButtonModule],
+    MatButtonModule
+  ],
   templateUrl: './app.html',
-  styleUrls: ['./app.css'] // ✅ FIXED
+  styleUrls: ['./app.css']
 })
-export class App {
+export class App implements OnInit {
   isLoggedIn: boolean = false;
   username: string = '';
 
   protected readonly title = signal('smart-campus-lost-found-frontend');
-}
 
   constructor(private authService: AuthService, private router: Router) {}
 

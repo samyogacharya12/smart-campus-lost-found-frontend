@@ -23,6 +23,18 @@ export class AuthService {
       this.loggedIn.next(this.hasToken());
     }
   }
+   register(data: {  roles: string;
+    userName: string;
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    address: string;
+    phoneNumber: string;}): Observable<any> {
+    return this.http.post(`${this.apiUrl}/users`, data);
+  }
+
+     
 
   login(credentials: { userName: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/authenticate`, credentials).pipe(

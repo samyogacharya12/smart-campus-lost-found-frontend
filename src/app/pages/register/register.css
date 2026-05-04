@@ -1,0 +1,82 @@
+/* Background same as login */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+/* Container */
+.register-container {
+  width: 400px;
+  margin: 50px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Title */
+.register-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Form spacing */
+.register-container div {
+  margin-bottom: 15px;
+}
+
+/* Two column layout */
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.form-row div {
+  flex: 1;
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+/* Inputs */
+input, select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: 0.3s;
+}
+
+input:focus, select:focus {
+  border-color: #4facfe;
+  box-shadow: 0 0 5px rgba(79, 172, 254, 0.5);
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 10px;
+  background: #4facfe;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #007bff;
+}
+
+/* Error */
+.error {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}

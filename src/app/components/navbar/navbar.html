@@ -2,10 +2,36 @@
   <div class="logo">Smart Lost & Found</div>
 
   <div class="nav-links">
-    <a routerLink="/">Home</a>
-    <a routerLink="/lost-items">Lost Items</a>
-    <a routerLink="/found-items">Found Items</a>
-    <a routerLink="/report-item">Report Item</a>
+    <!-- Common Links -->
+    <a routerLink="/dashboard">Home</a>
+
+    <!-- USER Links -->
+    <a *ngIf="isLoggedIn && isUser" [routerLink]="['/lost-items']">
+      My Items
+    </a>
+
+    <a *ngIf="isLoggedIn && isUser" [routerLink]="['/claims', username]">
+      My Claims
+    </a>
+
+    <!-- ADMIN Links -->
+    <a *ngIf="isLoggedIn && isAdmin" routerLink="/admin/items">
+      Manage Items
+    </a>
+
+    <a *ngIf="isLoggedIn && isAdmin" routerLink="/admin/users">
+      Manage Users
+    </a>
+
+    <a *ngIf="isLoggedIn && isAdmin" routerLink="/admin/claims">
+      Manage Claims
+    </a>
+
+    <!-- Auth Links -->
+    <a *ngIf="!isLoggedIn" routerLink="/login">Login</a>
+    <a *ngIf="!isLoggedIn" routerLink="/register">Register</a>
     <a routerLink="/contact">Contact</a>
+
+    <a *ngIf="isLoggedIn" (click)="logout()">Logout</a>
   </div>
 </nav>

@@ -4,69 +4,6 @@
     <h3> {{ role }}</h3> 
     <h1>Welcome to the Smart Campus Lost & Found Management System</h1>
     <p>Report, search, claim, and manage lost or found items easily across campus!</p>
-
-    <div class="button-group mt-3">
-
-      <!-- Not Logged In -->
-      <button *ngIf="!isLoggedIn" mat-raised-button color="primary" routerLink="/login">
-        Sign In
-      </button>
-
-      <button *ngIf="!isLoggedIn" mat-stroked-button color="accent" routerLink="/register">
-        Sign Up
-      </button>
-
-      <!-- Common Logged In Buttons -->
-      <button *ngIf="isLoggedIn" mat-raised-button color="primary" routerLink="/lost-items">
-        Lost Items
-      </button>
-
-      <button *ngIf="isLoggedIn" mat-raised-button color="accent" routerLink="/found-items">
-        Found Items
-      </button>
-
-      <!-- USER Only -->
-      <button
-        *ngIf="isLoggedIn && isUser"
-        mat-raised-button
-        color="primary"
-        [routerLink]="['/items', username]">
-        My Items
-      </button>
-
-      <button
-        *ngIf="isLoggedIn && isUser"
-        mat-raised-button
-        color="accent"
-        [routerLink]="['/claims', username]">
-        My Claims
-      </button>
-
-      <!-- ADMIN Only -->
-      <button
-        *ngIf="isLoggedIn && isAdmin"
-        mat-raised-button
-        color="primary"
-        routerLink="/admin/items">
-        Manage Items
-      </button>
-
-      <button
-        *ngIf="isLoggedIn && isAdmin"
-        mat-raised-button
-        color="accent"
-        routerLink="/admin/users">
-        Manage Users
-      </button>
-
-      <button
-        *ngIf="isLoggedIn && isAdmin"
-        mat-raised-button
-        color="warn"
-        routerLink="/admin/claims">
-        Manage Claims
-      </button>
-    </div>
   </div>
 
   <!-- USER Section -->
