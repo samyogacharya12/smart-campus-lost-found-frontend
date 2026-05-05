@@ -10,18 +10,17 @@ import { Login } from './pages/login/login';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { Register } from './pages/register/register';
 import { Location } from './pages/location/location';
-
-
+import { AuthGuard } from './guards/auth-guard';
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: Login },
   { path: 'register', component: Register },
-  { path: 'dashboard', component: Dashboard },
-  { path: 'lost-items', component: LostItems },
-  { path: 'found-items', component: FoundItems },
-  { path: 'report-item', component: ReportItem },
-  { path: 'contact', component: Contact },
-  { path: 'location', component: Location }
+  { path: 'dashboard', component: Dashboard},
+  { path: 'lost-items', component: LostItems, canActivate: [AuthGuard] },
+  { path: 'found-items', component: FoundItems, canActivate: [AuthGuard] },
+  { path: 'report-item', component: ReportItem, canActivate: [AuthGuard] },
+  { path: 'contact', component: Contact, canActivate: [AuthGuard]},
+  { path: 'location', component: Location, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
