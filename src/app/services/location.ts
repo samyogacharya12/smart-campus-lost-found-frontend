@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpHeaders} from '@angular/common/http';
-
+import {ApiResponse, LocationDto} from '../models/location'
 export interface LocationRequest {
   locationName: string;
   description: string;
@@ -27,8 +27,8 @@ createLocation(location: LocationRequest): Observable<any> {
     'Content-Type': 'application/json'
   });
 
-    console.log('Authorization:', headers.get('Authorization'));
-console.log('Content-Type:', headers.get('Content-Type'));
+ console.log('Authorization:', headers.get('Authorization'));
+ console.log('Content-Type:', headers.get('Content-Type'));
 
   return this.http.post<any>(
     'http://localhost:8080/api/location',

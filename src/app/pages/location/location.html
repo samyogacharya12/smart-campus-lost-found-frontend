@@ -1,8 +1,16 @@
-<div class="location-container">
-  <h2>Create Location</h2>
+<!-- Create Button -->
 
-  <form (ngSubmit)="saveLocation()">
-    <div>
+<button *ngIf="!showForm" (click)="toggleForm()" class="create-btn">
+  Create Location
+</button>
+
+<!-- Form -->
+<div *ngIf="showForm">
+  <form class="location-form" (ngSubmit)="saveLocation()">
+
+    <h2>Create Location</h2>
+
+    <div class="form-group">
       <label>Location Name</label>
       <input
         type="text"
@@ -12,7 +20,7 @@
       />
     </div>
 
-    <div>
+    <div class="form-group">
       <label>Description</label>
       <textarea
         name="description"
@@ -21,9 +29,38 @@
       ></textarea>
     </div>
 
-    <button type="submit">Save Location</button>
-  </form>
+    <div class="button-group">
+      <button type="button" (click)="closeForm()">Cancel</button>
+      <button type="submit">Save Location</button>
+    </div>
 
-  <p style="color: green;" *ngIf="successMessage">{{ successMessage }}</p>
-  <p style="color: red;" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </form>
+</div>
+
+<!-- Location List -->
+<div *ngIf="!showForm">
+  <h2>Location List</h2>
+  <p *ngIf="isLoading">Loading locations...</p>
+
+  <table *ngIf="!isLoading && locations" class="location-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let loc of locations">
+        <td>{{ loc?.locationId }}</td>
+        <td>{{ loc?.locationName }}</td>
+        <td>{{ loc?.locationDescription }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!isLoading && locations.length === 0">
+    No locations found
+  </p>
 </div>

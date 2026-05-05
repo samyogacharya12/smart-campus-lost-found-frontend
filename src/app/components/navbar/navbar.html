@@ -28,9 +28,10 @@
     </a>
 
     
-    <a *ngIf="isLoggedIn && isAdmin" routerLink="/location">
-      Location
-    </a>
+    
+    <a *ngIf="isLoggedIn && isAdmin" [routerLink]="['/location']">
+    Location
+   </a>
 
     <!-- Auth Links -->
     <a *ngIf="!isLoggedIn" routerLink="/login">Login</a>
