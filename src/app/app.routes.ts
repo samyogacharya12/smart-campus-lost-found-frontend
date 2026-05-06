@@ -24,7 +24,7 @@ export const routes: Routes = [
   { path: 'report-item', component: ReportItem, canActivate: [AuthGuard] },
   { path: 'contact', component: Contact, canActivate: [AuthGuard] },
   { path: 'location', component: LocationComponent, canActivate: [AuthGuard] },
-
+  { path: 'admin/items', component: LostItems,canActivate: [AuthGuard] },
   // Optional fallback route
   { path: '**', redirectTo: 'login' }
 ];

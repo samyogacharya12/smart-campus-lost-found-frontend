@@ -37,7 +37,6 @@ openForm(): void {
 }
 
 closeForm(): void {
-  console.log("close form is called");
   this.showForm = false;
 }
 
@@ -52,15 +51,8 @@ trackByLocationId(index: number, loc: any): number {
     this.locationService.getAllLocations().subscribe({
       next: (data:any) => {
         this.locations = data.detail || [];
-        console.log("detail:", data.detail);
-        this.locations.forEach((loc: any) => {
-    console.log("ID:", loc.locationId);
-    console.log("Name:", loc.locationName);
-    console.log("Description:", loc.locationDescription);
-  });
         this.isLoading = false;
         this.cdr.detectChanges(); // force UI update
-        console.log(this.isLoading);
         this.closeForm();
 
       },
