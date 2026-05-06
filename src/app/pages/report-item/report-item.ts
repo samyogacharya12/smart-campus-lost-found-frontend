@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ItemService } from '../../services/item';
 import { ChangeDetectorRef } from '@angular/core';
 import { LocationService } from '../../services/location';
+import { CategoryService } from '../../services/category';
 @Component({
   selector: 'app-report-item',
   imports: [CommonModule, FormsModule],
@@ -12,6 +13,7 @@ import { LocationService } from '../../services/location';
 })
 export class ReportItem implements OnInit {
   itemName = '';
+  selectedFile!: File;
   description = '';
   itemType = 'LOST';
   locationId!: number;
@@ -32,6 +34,7 @@ export class ReportItem implements OnInit {
 
   constructor(private itemService: ItemService,
               private locationService: LocationService, 
+              private categoryService: CategoryService,
               private cdr: ChangeDetectorRef
 ) {}
 
@@ -43,11 +46,10 @@ export class ReportItem implements OnInit {
     // Get username from localStorage
     this.username = localStorage.getItem('username') || '';
 
-    console.log('Role:', this.role);
-    console.log('Username:', this.username);
 
     this.loadItems();
     this.loadLocations();
+    this.loadCategories();
   }
 
     loadItems(): void {
@@ -91,6 +93,24 @@ export class ReportItem implements OnInit {
     }
   }
 
+  onFileSelected(event: any): void {
+
+  this.selectedFile = event.target.files[0];
+
+}
+
+  loadCategories():void{
+    this.categoryService.getAllCategories().subscribe({
+     next: (data: any)=>{
+      this.categories=data.detail || [];
+     },
+     error:(error:any)=>{
+      console.log(error);
+     }
+    });
+  }
+
+
   loadLocations(): void {
 
   this.locationService.getAllLocations().subscribe({
@@ -130,7 +150,19 @@ closeForm(): void {
       categoryId: this.categoryId
     };
 
-    this.itemService.reportItem(item).subscribe({
+      const formData = new FormData();
+
+  formData.append('title', this.itemName);
+  formData.append('itemType', this.itemType);
+  formData.append('description', this.description);
+  formData.append('locationId', this.locationId.toString());
+  formData.append('categoryId', this.categoryId.toString());
+
+  if (this.selectedFile) {
+    formData.append('file', this.selectedFile);
+  }
+
+    this.itemService.reportItem(formData).subscribe({
 
       next: () => {
 
