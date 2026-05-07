@@ -1,0 +1,62 @@
+<div class="category-container">
+
+  <h2>Category Management</h2>
+
+  <button type="button" class="toggle-btn" *ngIf="!showForm" (click)="toggleForm()">
+    Add Category
+  </button>
+
+  <form class="category-form" *ngIf="showForm" (ngSubmit)="saveCategory()">
+
+    <label>Category Name</label>
+    <input
+      type="text"
+      name="categoryName"
+      [(ngModel)]="categoryName"
+      placeholder="Enter category name"
+      required
+    />
+
+    <label>Description</label>
+    <textarea
+      name="description"
+      [(ngModel)]="description"
+      placeholder="Enter description"
+      required>
+    </textarea>
+
+    <div class="button-group">
+      <button type="button" class="cancel-btn" (click)="resetForm()">Cancel</button>
+
+      <button type="submit" class="submit-btn">
+        {{ isEditMode ? 'Update Category' : 'Create Category' }}
+      </button>
+    </div>
+
+  </form>
+
+  <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <table *ngIf="!showForm">
+    <thead>
+      <tr>
+        <th>Category Name</th>
+        <th>Description</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let category of categories">
+        <td>{{ category.categoryName }}</td>
+        <td>{{ category.description }}</td>
+        <td>
+          <button class="edit-btn" (click)="editCategory(category)">Edit</button>
+          <button class="delete-btn" (click)="deleteCategory(category.categoryId)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

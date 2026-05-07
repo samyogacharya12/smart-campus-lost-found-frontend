@@ -5,14 +5,7 @@
     <!-- Common Links -->
     <a routerLink="/dashboard">Home</a>
 
-    <!-- USER Links -->
-    <a *ngIf="isLoggedIn && isUser" [routerLink]="['/lost-items']">
-      My Items
-    </a>
-
-    <a *ngIf="isLoggedIn && isUser" [routerLink]="['/claims', username]">
-      My Claims
-    </a>
+  
 
     <!-- ADMIN Links -->
     <a *ngIf="isLoggedIn"  routerLink="/report-item">
@@ -27,7 +20,9 @@
       Manage Claims
     </a>
 
-    
+       <a *ngIf="isLoggedIn && isAdmin" routerLink="/category">
+    Category
+       </a>
     
     <a *ngIf="isLoggedIn && isAdmin" [routerLink]="['/location']">
     Location

@@ -106,6 +106,7 @@
         <th>Type</th>
         <th>Location</th>
         <th>Category</th>
+        <th>Item Image</th>
         <th *ngIf="role === 'ADMIN'">Action</th>
       </tr>
     </thead>
@@ -117,7 +118,15 @@
         <td>{{ item.itemType }}</td>
         <td>{{ item.locationName }}</td>
         <td>{{ item.categoryName }}</td>
-
+        <td>
+          <a
+  [href]="'http://localhost:8080/item/images/download/' + item.imageId + '/' + item.itemId"
+  target="_blank">
+          <img
+         [src]="'http://localhost:8080/item/images/download/' + item.imageId + '/' + item.itemId"
+           class="item-image"
+             target="_blank"
+         /> </a> </td>
         <td *ngIf="role === 'ADMIN'">
           <button class="delete-btn" (click)="deleteItem(item.itemId)">
             Delete

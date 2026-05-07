@@ -9,6 +9,7 @@ import { Login } from './pages/login/login';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { Register } from './pages/register/register';
 import { LocationComponent } from './pages/location/location';
+import { Category } from './pages/category/category';
 import { AuthGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
@@ -25,6 +26,7 @@ export const routes: Routes = [
   { path: 'contact', component: Contact, canActivate: [AuthGuard] },
   { path: 'location', component: LocationComponent, canActivate: [AuthGuard] },
   { path: 'admin/items', component: LostItems,canActivate: [AuthGuard] },
+  { path: 'category', component: Category, canActivate: [AuthGuard] },
   // Optional fallback route
   { path: '**', redirectTo: 'login' }
 ];
