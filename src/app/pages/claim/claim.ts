@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ClaimService } from '../../services/claim';
 import { Claim } from '../../models/claim';
+import { ChangeDetectorRef } from '@angular/core';
+import { ItemService } from '../../services/item';
 
 @Component({
   selector: 'app-claim',
@@ -11,12 +13,12 @@ import { Claim } from '../../models/claim';
   styleUrl: './claim.css'
 })
 export class ClaimComponent implements OnInit {
-
+  selectedFile!: File;
   claims: any[] = [];
-
+  items:any[]=[];  
   claimId: number | null = null;
-  itemId!: number;
-  userId!: number;
+  itemId?: number | any;
+  userId?: number;
   claimMessage = '';
   status = 'PENDING';
 
@@ -26,29 +28,69 @@ export class ClaimComponent implements OnInit {
 
   showForm = false;
 
-  constructor(private claimService: ClaimService) {}
+  constructor(private claimService: ClaimService,
+              private itemService: ItemService, 
+            private cdr: ChangeDetectorRef
+
+  ) {}
+
+
+
+  
+  onFileSelected(event: any): void {
+
+  this.selectedFile = event.target.files[0];
+
+}
+  
+  toggleForm(): void {
+    this.showForm = !this.showForm;
+  }
+
+openForm(): void {
+  this.showForm = true;
+}
+
+closeForm(): void {
+  this.showForm = false;
+}
+
 
   ngOnInit(): void {
     this.role = localStorage.getItem('role') || '';
     this.userId = Number(localStorage.getItem('userId'));
 
     this.loadClaims();
+    this.loadItems();
+  }
+
+  loadItems():void{
+    this.itemService.getAllItems().subscribe({
+      next: (data:any)=>{
+         this.items=data.detail || [];
+      },
+       error: (error) => {
+          console.log(error);
+        }
+    })
   }
 
   loadClaims(): void {
     if (this.role === 'ADMIN') {
       this.claimService.getAllClaims().subscribe({
         next: (data: any) => {
-          this.claims = Array.isArray(data) ? data : data.detail || [];
+          this.claims =  data.detail || [];
+          this.cdr.detectChanges(); // force UI update
         },
         error: (error) => {
           console.log(error);
         }
       });
     } else {
-      this.claimService.getMyClaims(this.userId).subscribe({
+      this.claimService.getAllClaimsByUsers().subscribe({
         next: (data: any) => {
-          this.claims = Array.isArray(data) ? data : data.detail || [];
+          this.claims = data.detail || [];
+          this.cdr.detectChanges(); // force UI update
         },
         error: (error) => {
           console.log(error);
@@ -57,23 +99,20 @@ export class ClaimComponent implements OnInit {
     }
   }
 
-  toggleForm(): void {
-    this.showForm = !this.showForm;
-  }
-
   submitClaim(): void {
-    const claim: Claim = {
-      itemId: this.itemId,
-      userId: this.userId,
-      claimMessage: this.claimMessage,
-      status: 'PENDING'
-    };
+  const formData = new FormData();
 
-    this.claimService.createClaim(claim).subscribe({
+  formData.append('itemId', this.itemId);
+  formData.append('claimMessage', this.claimMessage);
+  formData.append('status', this.status);
+  
+  if (this.selectedFile) {
+    formData.append('file', this.selectedFile);
+  }
+    this.claimService.createClaim(formData).subscribe({
       next: () => {
         this.successMessage = 'Claim submitted successfully';
         this.errorMessage = '';
-        this.resetForm();
         this.loadClaims();
       },
       error: (error) => {
@@ -110,11 +149,4 @@ export class ClaimComponent implements OnInit {
     });
   }
 
-  resetForm(): void {
-    this.claimId = null;
-    this.itemId = 0;
-    this.claimMessage = '';
-    this.status = 'PENDING';
-    this.showForm = false;
-  }
 }

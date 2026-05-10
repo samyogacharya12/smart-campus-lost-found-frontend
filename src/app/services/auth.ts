@@ -31,7 +31,7 @@ export class AuthService {
     lastName: string;
     address: string;
     phoneNumber: string;}): Observable<any> {
-    return this.http.post(`${this.apiUrl}/users`, data);
+    return this.http.post(`${this.apiUrl}/register`, data);
   }
 
      

@@ -20,8 +20,12 @@
       Manage Claims
     </a>
 
-       <a *ngIf="isLoggedIn && isAdmin" routerLink="/category">
-    Category
+       <a *ngIf="isLoggedIn" routerLink="/found-items">
+      Found Items
+    </a>
+
+       <a *ngIf="isLoggedIn" routerLink="/lost-items">
+    Lost Items
        </a>
     
     <a *ngIf="isLoggedIn && isAdmin" [routerLink]="['/location']">

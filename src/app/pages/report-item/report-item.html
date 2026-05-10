@@ -101,6 +101,7 @@
   <table>
     <thead>
       <tr>
+        <th> User</th>
         <th>Item Name</th>
         <th>Description</th>
         <th>Type</th>
@@ -113,6 +114,7 @@
 
     <tbody>
       <tr *ngFor="let item of items">
+        <td> {{item.userName}}</td>
         <td>{{ item.title }}</td>
         <td>{{ item.description }}</td>
         <td>{{ item.itemType }}</td>

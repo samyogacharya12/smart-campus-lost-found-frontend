@@ -140,15 +140,6 @@ closeForm(): void {
 
     submitItem(): void {
 
-    const item = {
-
-      title: this.itemName,
-      description: this.description,
-      itemType: this.itemType,
-
-      locationId: this.locationId,
-      categoryId: this.categoryId
-    };
 
       const formData = new FormData();
 

@@ -1,29 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import { ItemService } from '../../services/item';
+import { ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-found-items',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './found-items.html',
   styleUrl: './found-items.css'
 })
-export class FoundItems {
+export class FoundItems implements OnInit  {
+  items: any[] = [];
+  successMessage = '';
+  errorMessage = '';
+  pageTitle='';
+    constructor(private itemService: ItemService,  private cdr: ChangeDetectorRef
+) {}
 
-  items = [
-    {
-      name: 'Water Bottle',
-      location: 'Student Center',
-      date: 'May 1, 2026'
+    ngOnInit(): void {
+    this.loadFoundItems();
+  }
+
+   
+  loadFoundItems(): void {
+  this.itemService.getItemsByType('FOUND').subscribe({
+    next: (data: any) => {
+      this.items = data.detail || [];
+      this.cdr.detectChanges();
     },
-    {
-      name: 'Backpack',
-      location: 'Engineering Building',
-      date: 'May 2, 2026'
-    },
-    {
-      name: 'Keys',
-      location: 'Gym',
-      date: 'May 3, 2026'
+    error: (err) => {
+      console.log(err);
     }
-  ];
-
+  });
+  }
 }

@@ -1,33 +1,89 @@
-.found-items-page {
-  padding: 40px 60px;
-}
-
-.found-items-page h2 {
-  font-size: 32px;
-  margin-bottom: 30px;
-  color: #0f172a;
-}
-
-.items-container {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.item-card {
-  width: 260px;
-  padding: 20px;
+.item-container {
+  padding: 25px;
+  background: #fff;
   border-radius: 12px;
-  background: #f8fafc;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  margin: 25px auto;
+  max-width: 1200px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
 }
 
-.item-card h3 {
-  margin-bottom: 10px;
+.item-container h2 {
+  margin-bottom: 20px;
+  color: #1e293b;
+  font-size: 28px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+thead {
+  background-color: #2563eb;
+  color: white;
+}
+
+th {
+  padding: 14px;
+  text-align: left;
+  font-size: 15px;
+}
+
+td {
+  padding: 14px;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: middle;
+  word-wrap: break-word;
+}
+
+tr:hover {
+  background-color: #f8fafc;
+}
+
+.item-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  border: 1px solid #ddd;
+  display: block;
+  margin: auto;
+}
+
+.item-image:hover {
+  transform: scale(1.05);
+}
+
+.open {
+  color: #2563eb;
+  font-weight: bold;
+}
+
+.claimed {
+  color: #f59e0b;
+  font-weight: bold;
+}
+
+.returned {
   color: #16a34a;
+  font-weight: bold;
 }
 
-.item-card p {
-  margin: 5px 0;
-  color: #475569;
+.closed {
+  color: #dc2626;
+  font-weight: bold;
+}
+
+.success {
+  color: #16a34a;
+  margin-bottom: 15px;
+}
+
+.error {
+  color: #dc2626;
+  margin-bottom: 15px;
 }

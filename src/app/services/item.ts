@@ -15,6 +15,19 @@ export class ItemService {
 
   constructor(private http: HttpClient) {}
 
+
+  getItemsByType(itemType: string) {
+    const token = localStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  return this.http.get<any>(
+    `${this.apiUrl}/type/${itemType}`, {headers});
+}
+
+
   getAllItems(): Observable<any[]> {
 
     const token = localStorage.getItem('token');

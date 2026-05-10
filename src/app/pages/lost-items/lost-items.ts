@@ -1,33 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import { ItemService } from '../../services/item';
+import { ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-lost-items',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './lost-items.html',
   styleUrl: './lost-items.css'
 })
-export class LostItems {
-  items = [
-    {
-      name: 'Laptop',
-      location: 'Library',
-      date: 'May 1, 2026'
-    },
-    {
-      name: 'Wallet',
-      location: 'Cafeteria',
-      date: 'May 2, 2026'
-    },
-    {
-      name: 'Phone',
-      location: 'Parking Lot',
-      date: 'May 3, 2026'
-    },
+export class LostItems  implements OnInit{
+  successMessage = '';
+  errorMessage = '';
+  pageTitle='';
+  items: any[] = [];
 
-    {
-      name: 'AirPods',
-      location: 'Gym',
-      date: 'May 4, 2026'
+  constructor(private itemService: ItemService,  private cdr: ChangeDetectorRef
+) {}
+
+    ngOnInit(): void {
+    this.loadLostItems();
+  }
+
+
+  loadLostItems(): void {
+  this.itemService.getItemsByType('LOST').subscribe({
+    next: (data: any) => {
+      this.items = data.detail || [];
+      this.cdr.detectChanges();
     },
-  ];
+    error: (err) => {
+      console.log(err);
+    }
+  });
+}
 }

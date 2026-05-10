@@ -9,18 +9,19 @@ import { Claim } from '../models/claim';
 export class ClaimService {
 
   private apiUrl = 'http://localhost:8080/api/claims';
+    private uploadApiUrl = 'http://localhost:8080/item/claim';
+
 
   constructor(private http: HttpClient) {}
 
-  createClaim(claim: Claim): Observable<any> {
+  createClaim(claim: any): Observable<any> {
     const token = localStorage.getItem('token');
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
     });
 
-    return this.http.post(this.apiUrl, claim, { headers });
+    return this.http.post(this.uploadApiUrl+'/upload', claim, { headers });
   }
 
   getAllClaims(): Observable<any[]> {
@@ -34,7 +35,7 @@ export class ClaimService {
     return this.http.get<any[]>(this.apiUrl, { headers });
   }
 
-  getMyClaims(userId: number): Observable<any[]> {
+  getAllClaimsByUsers(): Observable<any[]> {
     const token = localStorage.getItem('token');
 
     const headers = new HttpHeaders({
@@ -42,7 +43,7 @@ export class ClaimService {
       'Content-Type': 'application/json'
     });
 
-    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`, { headers });
+    return this.http.get<any[]>(`${this.apiUrl}/user`, { headers });
   }
 
   updateClaim(id: number, claim: Claim): Observable<any> {
@@ -67,7 +68,7 @@ export class ClaimService {
     return this.http.delete(`${this.apiUrl}/${id}`, { headers });
   }
 
-  approveClaim(id: number): Observable<any> {
+  approveClaim(claimId: number): Observable<any> {
     const token = localStorage.getItem('token');
 
     const headers = new HttpHeaders({
@@ -75,10 +76,10 @@ export class ClaimService {
       'Content-Type': 'application/json'
     });
 
-    return this.http.put(`${this.apiUrl}/${id}/approve`, {}, { headers });
+    return this.http.put(`${this.apiUrl}/${claimId}/approve`, {}, { headers });
   }
 
-  rejectClaim(id: number): Observable<any> {
+  rejectClaim(claimId: number): Observable<any> {
     const token = localStorage.getItem('token');
 
     const headers = new HttpHeaders({
@@ -86,6 +87,6 @@ export class ClaimService {
       'Content-Type': 'application/json'
     });
 
-    return this.http.put(`${this.apiUrl}/${id}/reject`, {}, { headers });
+    return this.http.put(`${this.apiUrl}/${claimId}/reject`, {}, { headers });
   }
 }

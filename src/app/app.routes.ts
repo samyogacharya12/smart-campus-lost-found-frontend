@@ -12,6 +12,7 @@ import { LocationComponent } from './pages/location/location';
 import { Category } from './pages/category/category';
 import { AuthGuard } from './guards/auth-guard';
 import { ClaimComponent } from './pages/claim/claim';
+import {UserComponent} from './pages/admin/users/users';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -29,6 +30,7 @@ export const routes: Routes = [
   { path: 'admin/items', component: LostItems,canActivate: [AuthGuard] },
   { path: 'category', component: Category, canActivate: [AuthGuard] },
    {path: 'claim',component: ClaimComponent, canActivate:[AuthGuard]},
+   {path: 'admin/users', component: UserComponent, canActivate: [AuthGuard]},
   // Optional fallback route
   { path: '**', redirectTo: 'login' }
 ];
