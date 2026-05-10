@@ -16,6 +16,27 @@ export class ItemService {
   constructor(private http: HttpClient) {}
 
 
+  updateStatus(itemId: number, status: string) {
+    const token = localStorage.getItem('token');
+
+  const body = {
+    itemId: itemId,
+    status: status
+  };
+
+  
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+  return this.http.put(
+    `http://localhost:8080/api/items/status`,
+    body, {headers}
+  );
+
+}
+
   getItemsByType(itemType: string) {
     const token = localStorage.getItem('token');
 
@@ -67,6 +88,23 @@ export class ItemService {
       { headers }
     );
   }
+
+  searchItems(itemName: string, locationId: number | null) {
+    const token = localStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+     const body = {
+    title: itemName,
+    locationId: locationId
+  };
+
+  return this.http.post<any[]>(
+    `http://localhost:8080/api/items/search`,body, {headers}
+  );
+}
 
   deleteItem(id: number): Observable<any> {
 

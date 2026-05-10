@@ -1,3 +1,40 @@
+.admin-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.status-dropdown {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  min-width: 160px;
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+}
+
+.update-btn {
+  padding: 8px 14px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.update-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.delete-btn {
+  background: #dc3545;
+  padding: 8px 14px;
+}
+
+
 .toggle-btn {
   padding: 10px 18px;
   background-color: #28a745;
@@ -153,14 +190,6 @@ table th {
   color: #333;
 }
 
-.delete-btn {
-  padding: 7px 12px;
-  background: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
 
 .delete-btn:hover {
   background: #b02a37;

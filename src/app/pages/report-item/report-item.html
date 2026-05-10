@@ -107,6 +107,7 @@
         <th>Type</th>
         <th>Location</th>
         <th>Category</th>
+        <th>Status</th>
         <th>Item Image</th>
         <th *ngIf="role === 'ADMIN'">Action</th>
       </tr>
@@ -120,6 +121,7 @@
         <td>{{ item.itemType }}</td>
         <td>{{ item.locationName }}</td>
         <td>{{ item.categoryName }}</td>
+        <td> {{item.status}}</td>
         <td>
           <a
   [href]="'http://localhost:8080/item/images/download/' + item.imageId + '/' + item.itemId"
@@ -129,11 +131,43 @@
            class="item-image"
              target="_blank"
          /> </a> </td>
-        <td *ngIf="role === 'ADMIN'">
-          <button class="delete-btn" (click)="deleteItem(item.itemId)">
-            Delete
-          </button>
-        </td>
+<td *ngIf="role === 'ADMIN'" class="action-column">
+
+  <div class="admin-actions">
+
+    <select
+      [(ngModel)]="item.status"
+      class="status-dropdown">
+
+      <option value="OPEN">OPEN</option>
+      <option value="MATCHED">MATCHED</option>
+      <option value="RETURNED">RETURNED</option>
+
+    </select>
+
+    <div class="button-row">
+
+      <button
+        class="update-btn"
+        (click)="updateStatus(item.itemId, item.status)">
+
+        Update
+
+      </button>
+
+      <button
+        class="delete-btn"
+        (click)="deleteItem(item.itemId)">
+
+        Delete
+
+      </button>
+
+    </div>
+
+  </div>
+
+</td>
       </tr>
     </tbody>
   </table>

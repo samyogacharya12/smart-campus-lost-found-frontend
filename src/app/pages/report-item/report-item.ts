@@ -93,6 +93,32 @@ export class ReportItem implements OnInit {
     }
   }
 
+updateStatus(itemId: number, status: string): void {
+
+  this.itemService.updateStatus(itemId, status).subscribe({
+
+    next: () => {
+
+      alert('Status updated successfully');
+
+      this.loadItems();
+
+    },
+
+    error: (err) => {
+
+      console.error(err);
+
+      alert('Failed to update status');
+
+    }
+
+  });
+
+}
+
+
+
   onFileSelected(event: any): void {
 
   this.selectedFile = event.target.files[0];
