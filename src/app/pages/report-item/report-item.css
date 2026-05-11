@@ -1,3 +1,73 @@
+.reset-btn {
+  padding: 10px 20px;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+}
+
+.reset-btn:hover {
+  background-color: #dc2626;
+  transform: translateY(-2px);
+}
+
+.reset-btn:active {
+  transform: scale(0.97);
+}
+
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.search-btn {
+  padding: 8px 16px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.search-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.search-input,
+.location-filter,
+.item-type-filter {
+  width: 180px;
+  height: 40px;
+  padding: 8px 12px;
+  font-size: 15px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background-color: white;
+}
+
+.search-input {
+  width: 230px;
+}
+
+.filter-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+
 .admin-actions {
   display: flex;
   flex-direction: column;

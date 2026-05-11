@@ -2,6 +2,68 @@
 
   <h2>Report Item</h2>
 
+  <div class="filter-section" *ngIf="!this.showForm">
+    <select class="location-filter"
+      name="selectedLocationId"
+      [(ngModel)]="selectedLocationId"
+    >
+    <option value="">All Locations</option>
+
+    <option
+      *ngFor="let location of locations"
+      [value]="location.locationId"
+      >
+
+      {{ location.locationName }}
+
+    </option>
+  </select>
+
+    <select
+  name="selectItemType"
+  class="item-type-filter"
+  [(ngModel)]="selectItemType">
+
+  <option value="">All Items</option>
+  <option value="LOST">Lost Item</option>
+  <option value="FOUND">Found Item</option>
+
+</select>
+
+    <input
+    type="text"
+    name="searchItemName"
+    class="search-input"
+    placeholder="Search by item name"
+    [(ngModel)]="searchItemName"
+  />
+
+<div class="button-group">
+
+  <button
+    type="button"
+    class="search-btn"
+    (click)="searchItems()"
+    >
+
+    Search
+
+  </button>
+
+    <button
+    type="button"
+    class="reset-btn"
+    (click)="resetFilters()"
+    >
+
+    Reset
+
+  </button>
+
+</div>
+</div>
+
+
   <button type="button" *ngIf="!this.showForm" (click)="toggleForm()" class="toggle-btn">
     Report New Item
   </button>
@@ -93,6 +155,7 @@
   <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
 
   <hr />
+
 
   <p *ngIf="isLoading">Loading Items...</p>
   <div *ngIf="!this.showForm">

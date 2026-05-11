@@ -13,9 +13,12 @@ import { CategoryService } from '../../services/category';
 })
 export class ReportItem implements OnInit {
   itemName = '';
+  searchItemName='';
+  selectedLocationId:any;
   selectedFile!: File;
   description = '';
   itemType = 'LOST';
+  selectItemType:any;
   locationId!: number;
   categoryId!: number;
   // Messages
@@ -57,7 +60,6 @@ export class ReportItem implements OnInit {
     this.isLoading = true;
 
     // ADMIN → get all items
-    if (this.role === 'ADMIN') {
 
       this.itemService.getAllItems().subscribe({
         next: (data:any) => {
@@ -75,22 +77,6 @@ export class ReportItem implements OnInit {
           this.isLoading = false;
         }
       });
-    } else{
-      this.itemService.getAllItemsByUser().subscribe({
-        next: (data:any) => {
-
-          this.items = data.detail || [];
-
-          this.isLoading = false;
-          this.cdr.detectChanges(); // force UI update
-        this.closeForm();
-        },
-        error: (error:any) => {
-          console.log(error);
-          this.isLoading = false;
-        }
-      }); 
-    }
   }
 
 updateStatus(itemId: number, status: string): void {
@@ -220,5 +206,41 @@ closeForm(): void {
       }
     });
   }
+
+  searchItems(): void {
+  if(this.selectItemType===''){
+    this.selectItemType=null;
+  }
+
+  if(this.selectedLocationId===''){
+    this.selectedLocationId=null;
+  }
+   if(this.selectedLocationId===""){
+    this.selectedLocationId=null;
+  }
+  this.itemService.searchItems(
+    this.searchItemName,
+    this.selectedLocationId,
+    this.selectItemType
+  ).subscribe({
+    next: (data: any) => {
+      this.items = data.detail || [];
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error(err);
+    }
+  });
+}
+
+resetFilters(): void {
+
+  this.searchItemName = '';
+  this.selectedLocationId = '';
+  this.selectItemType='';
+
+  this.ngOnInit();
+
+}
 
 }

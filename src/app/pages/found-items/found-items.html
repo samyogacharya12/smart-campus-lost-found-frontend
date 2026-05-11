@@ -4,6 +4,55 @@
 
   <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
   <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+<div class="filter-section">
+    <select class="location-filter"
+      name="selectedLocationId"
+      [(ngModel)]="selectedLocationId"
+    >
+    <option value="">All Locations</option>
+
+    <option
+      *ngFor="let location of locations"
+      [value]="location.locationId"
+      >
+
+      {{ location.locationName }}
+
+    </option>
+  </select>
+
+    <input
+    type="text"
+    name="searchItemName"
+    class="search-input"
+    placeholder="Search by item name"
+    [(ngModel)]="searchItemName"
+  />
+
+<div class="button-group">
+
+  <button
+    type="button"
+    class="search-btn"
+    (click)="searchItems()"
+    >
+
+    Search
+
+  </button>
+
+    <button
+    type="button"
+    class="reset-btn"
+    (click)="resetFilters()"
+    >
+
+    Reset
+
+  </button>
+
+</div>
+</div>
 
   <table>
     <thead>

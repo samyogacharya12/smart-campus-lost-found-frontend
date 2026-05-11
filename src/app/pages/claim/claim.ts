@@ -76,7 +76,6 @@ closeForm(): void {
   }
 
   loadClaims(): void {
-    if (this.role === 'ADMIN') {
       this.claimService.getAllClaims().subscribe({
         next: (data: any) => {
           this.claims =  data.detail || [];
@@ -86,17 +85,6 @@ closeForm(): void {
           console.log(error);
         }
       });
-    } else {
-      this.claimService.getAllClaimsByUsers().subscribe({
-        next: (data: any) => {
-          this.claims = data.detail || [];
-          this.cdr.detectChanges(); // force UI update
-        },
-        error: (error) => {
-          console.log(error);
-        }
-      });
-    }
   }
 
   submitClaim(): void {

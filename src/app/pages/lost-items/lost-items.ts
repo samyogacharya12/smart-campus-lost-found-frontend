@@ -53,7 +53,6 @@ loadLocations(): void {
 }
 
 searchItems(): void {
-  console.log("location"+this.selectedLocationId);
   if(this.selectedLocationId===''){
     this.selectedLocationId=null;
   }
@@ -62,7 +61,8 @@ searchItems(): void {
   }
   this.itemService.searchItems(
     this.searchItemName,
-    this.selectedLocationId
+    this.selectedLocationId,
+    'LOST'
   ).subscribe({
     next: (data: any) => {
       this.items = data.detail || [];

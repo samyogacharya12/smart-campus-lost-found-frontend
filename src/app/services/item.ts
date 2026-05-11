@@ -89,7 +89,7 @@ export class ItemService {
     );
   }
 
-  searchItems(itemName: string, locationId: number | null) {
+  searchItems(itemName: string, locationId: number | null, itemType: string | any) {
     const token = localStorage.getItem('token');
 
     const headers = new HttpHeaders({
@@ -98,7 +98,8 @@ export class ItemService {
 
      const body = {
     title: itemName,
-    locationId: locationId
+    locationId: locationId,
+    itemType: itemType
   };
 
   return this.http.post<any[]>(
