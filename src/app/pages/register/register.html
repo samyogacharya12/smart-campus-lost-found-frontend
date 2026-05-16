@@ -1,6 +1,14 @@
 <div class="register-container">
   <h2>Register</h2>
 
+<p class="success" *ngIf="successMessage">
+  {{ successMessage }}
+</p>
+
+<p class="error" *ngIf="errorMessage">
+  {{ errorMessage }}
+</p>
+
   <form (ngSubmit)="register()">
 
     <div class="form-row">
@@ -38,14 +46,6 @@
     <div>
       <label>Address</label>
       <input type="text" [(ngModel)]="address" name="address" required />
-    </div>
-
-    <div>
-      <label>Role</label>
-      <select [(ngModel)]="roles" name="roles">
-        <option value="USER">User</option>
-        <option value="ADMIN">Admin</option>
-      </select>
     </div>
 
     <button type="submit">Register</button>

@@ -85,7 +85,7 @@ updateStatus(itemId: number, status: string): void {
 
     next: () => {
 
-      alert('Status updated successfully');
+      alert("Item status updated successfully");
 
       this.loadItems();
 
@@ -169,7 +169,7 @@ closeForm(): void {
 
       next: () => {
 
-        this.successMessage = 'Item reported successfully';
+        alert("Item reported successfully");
         this.errorMessage = '';
 
         // Refresh items
@@ -196,13 +196,14 @@ closeForm(): void {
     this.itemService.deleteItem(id).subscribe({
 
       next: () => {
-
+      alert("Item deleted successfully");
         this.loadItems();
       },
 
       error: (error) => {
-
-        console.log(error);
+         this.errorMessage='Item delete failed';
+               alert("Item delete Failed");
+         console.log(error);
       }
     });
   }

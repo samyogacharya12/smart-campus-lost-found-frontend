@@ -19,6 +19,7 @@ export class UserComponent implements OnInit {
   selectedUserId: number | null = null;
 
   user = {
+    id: '',
     userName: '',
     email: '',
     firstName: '',
@@ -26,7 +27,7 @@ export class UserComponent implements OnInit {
     phoneNumber: '',
     address: '',
     password: '',
-    role: 'USER'
+    roles: 'USER'
   };
 
   successMessage = '';
@@ -67,6 +68,7 @@ loadUsers(): void {
     this.selectedUserId = selectedUser.id;
 
     this.user = {
+      id: selectedUser.id || '',
       userName: selectedUser.userName || '',
       email: selectedUser.email || '',
       firstName: selectedUser.firstName || '',
@@ -74,16 +76,16 @@ loadUsers(): void {
       phoneNumber: selectedUser.phoneNumber || '',
       address: selectedUser.address || '',
       password: '',
-      role: selectedUser.role || 'USER'
+      roles: selectedUser.role || 'USER'
     };
   }
 
   submitUser(): void {
     this.successMessage = '';
     this.errorMessage = '';
-
-    if (this.isEditMode && this.selectedUserId !== null) {
-      this.userService.updateUser(this.selectedUserId, this.user).subscribe({
+       
+    if (this.isEditMode) {
+      this.userService.updateUser(this.user).subscribe({
         next: () => {
           this.successMessage = 'User updated successfully';
           this.resetForm();
@@ -127,6 +129,7 @@ loadUsers(): void {
     this.selectedUserId = null;
 
     this.user = {
+      id: '',
       userName: '',
       email: '',
       firstName: '',
@@ -134,7 +137,7 @@ loadUsers(): void {
       phoneNumber: '',
       address: '',
       password: '',
-      role: 'USER'
+      roles: 'USER'
     };
   }
 }

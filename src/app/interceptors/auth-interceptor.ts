@@ -12,6 +12,10 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
+    if (req.url.includes('/assets/')) {
+    return next.handle(req);
+  }
+
     // skip login API
     if (req.url.includes('/authenticate')) {
       return next.handle(req);

@@ -77,6 +77,7 @@ trackByLocationId(index: number, loc: any): number {
         this.errorMessage = '';
         this.locationName = '';
         this.description = '';
+        this.ngOnInit();
       },
       error: () => {
         this.errorMessage = 'Failed to save location';

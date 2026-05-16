@@ -79,6 +79,7 @@ closeForm(): void {
       this.claimService.getAllClaims().subscribe({
         next: (data: any) => {
           this.claims =  data.detail || [];
+          this.showForm=false;
           this.cdr.detectChanges(); // force UI update
         },
         error: (error) => {

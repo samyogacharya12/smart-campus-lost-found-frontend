@@ -1,0 +1,20 @@
+.features {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.feature {
+  width: 280px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 12px;
+}
+
+.feature img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 15px;
+}

@@ -32,6 +32,10 @@
     Location
    </a>
 
+       <a *ngIf="isLoggedIn && isAdmin" [routerLink]="['/category']">
+    Category
+   </a>
+
     <!-- Auth Links -->
     <a *ngIf="!isLoggedIn" routerLink="/login">Login</a>
     <a *ngIf="!isLoggedIn" routerLink="/register">Register</a>

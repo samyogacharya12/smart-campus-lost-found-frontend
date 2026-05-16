@@ -38,9 +38,9 @@ export class UserService {
   }
 
   // UPDATE USER
-  updateUser(id: number, user: any): Observable<any> {
+  updateUser(user: any): Observable<any> {
     return this.http.put(
-      `${this.apiUrl}/${id}`,
+      `${this.apiUrl}`,
       user,
       { headers: this.getHeaders() }
     );

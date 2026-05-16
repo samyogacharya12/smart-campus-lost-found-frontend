@@ -16,14 +16,7 @@
     <input type="text" placeholder="Phone Number" [(ngModel)]="user.phoneNumber" name="phoneNumber">
     <input type="text" placeholder="Address" [(ngModel)]="user.address" name="address">
 
-    <input
-      type="password"
-      placeholder="Password"
-      [(ngModel)]="user.password"
-      name="password"
-      [required]="!isEditMode">
-
-    <select [(ngModel)]="user.role" name="role">
+    <select [(ngModel)]="user.roles" name="roles">
       <option value="USER">USER</option>
       <option value="ADMIN">ADMIN</option>
     </select>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-register',
@@ -18,10 +19,12 @@ export class Register {
   phoneNumber = '';
   address = '';
   roles = 'USER';
-
+  successMessage = '';
   errorMessage = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,
+                  private cdr: ChangeDetectorRef
+  ) {}
 
   register() {
     const payload = {
@@ -37,10 +40,25 @@ export class Register {
      console.log("the api is called");
     this.authService.register(payload).subscribe({
       next: (res) => {
-        alert('Registration successful');
+           this.successMessage = '🎉 Registration completed successfully!';
+           console.log(this.successMessage);
+        this.errorMessage = '';
+
+        // Reset form fields
+        this.userName = '';
+        this.email = '';
+        this.password = '';
+        this.firstName = '';
+        this.lastName = '';
+        this.phoneNumber = '';
+        this.address = '';
+        this.roles = 'USER';
+        this.cdr.detectChanges(); // force UI update
       },
       error: (err) => {
+        this.successMessage = '';
         this.errorMessage = 'Registration failed';
+        console.log(this.errorMessage);
       }
     });
   }

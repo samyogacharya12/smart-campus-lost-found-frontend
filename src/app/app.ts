@@ -37,12 +37,12 @@ export class App implements OnInit {
 
     if (this.isLoggedIn) {
       this.username = this.authService.getUsername();
-      console.log('Logged in username:', this.username);
     }
   }
 
   logout(): void {
     this.authService.logout();
+    window.location.reload(); // or router.navigate(['/login'])
     this.isLoggedIn = false;
     this.router.navigate(['/']);
   }
